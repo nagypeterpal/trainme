@@ -19,8 +19,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div class="flex h-screen">
-        <div class="m-auto">
+      <div className="flex h-screen">
+        <div className="m-auto">
           <div className="flex-initial m-1.5">
             <h1 className="text-3xl mt-6 text-regalblue">Please login</h1>
           </div>

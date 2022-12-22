@@ -15,38 +15,47 @@ export default function Home({user}) {
   const [username, setUsername] = useState(true)
   const [website, setWebsite] = useState(true)
   const [avatarurl, setAvatarurl] = useState(true)
+  
+  const [plancount, setPlanCount] = useState(true)
 
   useEffect(() => {
-    getData()
+    getUserData()
+    getPlanData()
   }, [user])
 
-  async function getData() {
+  async function getUserData() {
     try {
-      setLoading(true)
-
+    
       let { data, error, status } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
         .eq('id', user.id)
         .single()
 
-      if (error && status !== 406) {
-        throw error
-      }
-
       if (data) {
         setUsername(data.username)
         setWebsite(data.website)
         setAvatarurl(data.avatar_url)
       }
-    
+
     } catch (error) {
       alert('Error loading user data!')
       console.log(error)
     } finally {
-      setLoading(false)
+     
     }
   }
+
+
+  async function getPlanData() {
+    
+      let { count } = await supabase
+      .from('training_plans')
+      .select('*', { count: 'exact', head: true })
+      
+      if (count) { setPlanCount(count)}
+  }
+
 
 
 
@@ -59,7 +68,7 @@ export default function Home({user}) {
       </Head>
 
       <main className={styles.main}>
-        {user.email}        {username}        {website}          {avatarurl}
+        {user.email}        {username}        {website}          {avatarurl} ------  {plancount}
         <button className="button block" onClick={async () => { await supabaseClient.auth.signOut(); router.push('/');  }}> Sign Out</button>
       </main>
 
