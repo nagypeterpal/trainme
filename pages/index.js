@@ -22,7 +22,7 @@ export default function Home() {
       <div class="flex h-screen">
         <div class="m-auto">
           <div className="flex-initial m-1.5">
-            <h1 className="text-3xl mt-6">Please login</h1>
+            <h1 className="text-3xl mt-6 text-regalblue">Please login</h1>
           </div>
           <div>
             <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
