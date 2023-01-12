@@ -82,6 +82,7 @@ export default function Home({user}) {
 }
 
 
+
 export const getServerSideProps = async (ctx) => {
   // Create authenticated Supabase Client
   const supabaseServer = createServerSupabaseClient(ctx)
@@ -102,4 +103,4 @@ export const getServerSideProps = async (ctx) => {
       user: session.user,
     },
   }
-}
+}uok
