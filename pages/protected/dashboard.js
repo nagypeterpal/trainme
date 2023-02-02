@@ -10,7 +10,6 @@ export default function Home({ user }) {
 
   const supabaseClient = useSupabaseClient()
   const router = useRouter()
-  const supabase = useSupabaseClient()
  
 
   const [plancount, setPlanCount] = useState(true)
@@ -23,7 +22,7 @@ export default function Home({ user }) {
 
   //getting plan data
   async function getPlanData() {
-    let { count, error } = await supabase.from('training_plans').select('*', { count: 'exact', head: true })
+    let { count, error } = await supabaseClient.from('training_plans').select('*', { count: 'exact', head: true })
     if (error) { console.log(error) }
     if (count) { setPlanCount(count) }
   }
