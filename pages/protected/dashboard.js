@@ -1,34 +1,33 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
-import Avatar from '../../components/Avatar'
+import Head from "next/head";
+import Image from "next/image";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import Avatar from "../../components/Avatar";
 
 export default function Home({ user }) {
+  const supabaseClient = useSupabaseClient();
+  const router = useRouter();
 
-  const supabaseClient = useSupabaseClient()
-  const router = useRouter()
- 
-
-  const [plancount, setPlanCount] = useState(true)
+  const [plancount, setPlanCount] = useState(true);
 
   useEffect(() => {
-    getPlanData()
-  }, [user])
-
-  
+    getPlanData();
+  }, [user]);
 
   //getting plan data
   async function getPlanData() {
-    let { count, error } = await supabaseClient.from('training_plans').select('*', { count: 'exact', head: true })
-    if (error) { console.log(error) }
-    if (count) { setPlanCount(count) }
+    let { count, error } = await supabaseClient
+      .from("training_plans")
+      .select("*", { count: "exact", head: true });
+    if (error) {
+      console.log(error);
+    }
+    if (count) {
+      setPlanCount(count);
+    }
   }
-
-
-
 
   return (
     <div>
@@ -38,54 +37,79 @@ export default function Home({ user }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bg-blue-700 hover:bg-blue-600 p-8">
-        <div className="box-decoration-clone bg-gradient-to-r from-indigo-600 to-pink-500 text-white mb-8 p-4 text-6xl w-96">TrainMe</div>
-        <div><Avatar uid={user.id} url={user.avatarurl} size={150} /></div>
+        <div className="box-decoration-clone bg-gradient-to-r from-indigo-600 to-pink-500 text-white mb-8 p-4 text-6xl w-96">
+          TrainMe
+        </div>
+        <div>
+          <Avatar
+            uid={user.id}
+            url={user.avatarurl}
+            size={150}
+            readOnly={true}
+          />
+        </div>
         <div className="text-white my-4 text-2xl">{user.name}</div>
         <div>{user.website}</div>
-        <button className="button block" onClick={async () => { await router.push('/protected/profile'); }}> Profile</button>
-        <button className="button block" onClick={async () => { await supabaseClient.auth.signOut(); router.push('/'); }}> Sign Out</button>
+        <button
+          className="button block"
+          onClick={async () => {
+            await router.push("/protected/profile");
+          }}
+        >
+          {" "}
+          Profile
+        </button>
+        <button
+          className="button block"
+          onClick={async () => {
+            await supabaseClient.auth.signOut();
+            router.push("/");
+          }}
+        >
+          {" "}
+          Sign Out
+        </button>
       </div>
 
       <main className="text-3xl font-bold underline">
-        {user.email}        {user.name}        {user.website}          {user.avatarurl} ------  {plancount}
-       </main>
+        {user.email} {user.name} {user.website} {user.avatarurl} ------{" "}
+        {plancount}
+      </main>
 
       <footer></footer>
     </div>
-  )
+  );
 }
-
 
 export const getServerSideProps = async (ctx) => {
   // Create authenticated Supabase Client
-  const supabaseServer = createServerSupabaseClient(ctx)
+  const supabaseServer = createServerSupabaseClient(ctx);
   // Check if we have a session
-  const { data: { session }, } = await supabaseServer.auth.getSession()
+  const {
+    data: { session },
+  } = await supabaseServer.auth.getSession();
   //userdata
-  let userdata = {}
+  let userdata = {};
 
-  if (!session) return { redirect: {  destination: '/',  permanent: false,  }, }
+  if (!session) return { redirect: { destination: "/", permanent: false } };
 
   //query user data
   let { data, error, status } = await supabaseServer
-  .from('profiles')
-  .select(`username, website, avatar_url`)
-  .eq('id', session.user.id)
-  .single()
+    .from("profiles")
+    .select(`username, website, avatar_url`)
+    .eq("id", session.user.id)
+    .single();
 
   if (data) {
-    userdata.name=data.username;
-    userdata.website=data.website;
-    userdata.avatarurl=data.avatar_url;
+    userdata.name = data.username;
+    userdata.website = data.website;
+    userdata.avatarurl = data.avatar_url;
   }
-
-
 
   return {
     props: {
       initialSession: session,
       user: userdata,
     },
-  }
-}
-
+  };
+};
