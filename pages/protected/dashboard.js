@@ -88,28 +88,74 @@ export const getServerSideProps = async (ctx) => {
   const {
     data: { session },
   } = await supabaseServer.auth.getSession();
-  //userdata
-  let userdata = {};
 
   if (!session) return { redirect: { destination: "/", permanent: false } };
 
   //query user data
-  let { data, error, status } = await supabaseServer
+  const userdata = {};
+  let {
+    data: sb_userdata,
+    error: sb_usererror,
+    status: sb_userstatus,
+  } = await supabaseServer
     .from("profiles")
-    .select(`username, website, avatar_url`)
+    .select(`username, website, avatar_url,strava_id`)
     .eq("id", session.user.id)
     .single();
-
-  if (data) {
-    userdata.name = data.username;
-    userdata.website = data.website;
-    userdata.avatarurl = data.avatar_url;
+  if (sb_userdata) {
+    userdata.email = session.user.email;
+    userdata.id = session.user.id;
+    userdata.name = sb_userdata.username;
+    userdata.website = sb_userdata.website;
+    userdata.avatarurl = sb_userdata.avatar_url;
+    userdata.stravaid = sb_userdata.strava_id;
   }
+
+  //query training data
+  const trainingdata = {};
+
+  // getting aggregated data
+  let {
+    data: sb_tr_agg_data,
+    error: sb_tr_agg_error,
+    status: sb_tr_agg_status,
+  } = await supabaseServer.rpc("get_training_data_agg", {
+    userid: session.user.id,
+  });
+  if (sb_tr_agg_data) {
+    let parsed = JSON.parse(sb_tr_agg_data);
+    trainingdata.agg_act_pcs_tot = parsed.act_pcs_tot;
+    trainingdata.agg_pla_pcs_tot = parsed.pla_pcs_tot;
+    trainingdata.agg_act_dis_tot = parsed.act_dis_tot;
+    trainingdata.agg_pla_dis_tot = parsed.pla_dis_tot;
+    trainingdata.agg_act_mot_tot = parsed.act_mot_tot;
+    trainingdata.agg_act_elt_tot = parsed.act_elt_tot;
+    trainingdata.agg_pla_tim_tot = parsed.pla_tim_tot;
+    trainingdata.agg_act_ele_tot = parsed.act_ele_tot;
+    trainingdata.agg_act_spe_max = parsed.act_spe_max;
+    console.log(trainingdata);
+  }
+
+  // getting detailed data
+  let {
+    data: sb_tr_det_data,
+    error: sb_tr_det_error,
+    status: sb_tr_det_status,
+  } = await supabaseServer.rpc("get_training_data_detail", {
+    userid: session.user.id,
+  });
+  if (sb_tr_det_data) {
+    let parsed = JSON.parse(sb_tr_det_data);
+    trainingdata.lines = parsed;
+  }
+
+  console.log(trainingdata);
 
   return {
     props: {
       initialSession: session,
       user: userdata,
+      training: trainingdata,
     },
   };
 };
