@@ -124,6 +124,10 @@ export const getServerSideProps = async (ctx) => {
   });
   if (sb_tr_agg_data) {
     let parsed = JSON.parse(sb_tr_agg_data);
+    /*
+    Object.defineProperty(trainingdata,'agg',null);
+    const copy = Object.assign(trainingdata.agg, parsed);
+    */
     trainingdata.agg_act_pcs_tot = parsed.act_pcs_tot;
     trainingdata.agg_pla_pcs_tot = parsed.pla_pcs_tot;
     trainingdata.agg_act_dis_tot = parsed.act_dis_tot;
