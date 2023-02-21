@@ -5,8 +5,9 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
+import TM_PieChart from "../../components/TM_PieChart";
 
-export default function Home({ user }) {
+export default function Home({ user, training }) {
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
 
@@ -73,6 +74,9 @@ export default function Home({ user }) {
 
       <main className="text-3xl font-bold underline">
         {user.email} {user.name} {user.website} {user.avatarurl} ------{" "}
+        {training.agg.act_pcs_tot}
+        {training.agg.pla_pcs_tot}
+        <TM_PieChart />
         {plancount}
       </main>
 
@@ -124,20 +128,7 @@ export const getServerSideProps = async (ctx) => {
   });
   if (sb_tr_agg_data) {
     let parsed = JSON.parse(sb_tr_agg_data);
-    /*
-    Object.defineProperty(trainingdata,'agg',null);
-    const copy = Object.assign(trainingdata.agg, parsed);
-    */
-    trainingdata.agg_act_pcs_tot = parsed.act_pcs_tot;
-    trainingdata.agg_pla_pcs_tot = parsed.pla_pcs_tot;
-    trainingdata.agg_act_dis_tot = parsed.act_dis_tot;
-    trainingdata.agg_pla_dis_tot = parsed.pla_dis_tot;
-    trainingdata.agg_act_mot_tot = parsed.act_mot_tot;
-    trainingdata.agg_act_elt_tot = parsed.act_elt_tot;
-    trainingdata.agg_pla_tim_tot = parsed.pla_tim_tot;
-    trainingdata.agg_act_ele_tot = parsed.act_ele_tot;
-    trainingdata.agg_act_spe_max = parsed.act_spe_max;
-    console.log(trainingdata);
+    trainingdata.agg = parsed;
   }
 
   // getting detailed data
