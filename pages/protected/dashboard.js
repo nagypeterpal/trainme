@@ -1,16 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
-import TM_PieChart from "../../components/TM_PieChart";
+const TM_PieChart = dynamic(import("../../components/TM_PieChart"), {
+  ssr: false,
+});
 
 export default function Home({ user, training }) {
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
-
   const [plancount, setPlanCount] = useState(true);
 
   useEffect(() => {
