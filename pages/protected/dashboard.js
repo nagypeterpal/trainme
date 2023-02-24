@@ -43,7 +43,7 @@ export default function Home({ user, training }) {
         <div className="box-decoration-clone bg-gradient-to-r from-indigo-600 to-pink-500 text-white mb-8 p-4 text-6xl w-96">
           TrainMe
         </div>
-        <div>
+        <div className="mb-8 p-4 text-6xl w-48">
           <Avatar
             uid={user.id}
             url={user.avatarurl}
@@ -74,12 +74,50 @@ export default function Home({ user, training }) {
         </button>
       </div>
 
-      <main className="text-3xl font-bold underline">
-        {user.email} {user.name} {user.website} {user.avatarurl} ------{" "}
-        {training.agg.act_pcs_tot}
-        {training.agg.pla_pcs_tot}
-        <TM_PieChart />
-        {plancount}
+      <main>
+        <div className="flex h-screen bg-gradient-to-b from-gray-100 to-blue-300">
+          <div className="mx-auto grid grid-cols-2 gap-4">
+            <div>
+              <TM_PieChart
+                data={[
+                  {
+                    name: "Trainings done",
+                    value: training.agg.act_pcs_tot,
+                    color: "#00aa00",
+                  },
+                  {
+                    name: "Trainings left",
+                    value: training.agg.pla_pcs_tot - training.agg.act_pcs_tot,
+                    color: "#aa0000",
+                  },
+                ]}
+              />
+              total trainings: {training.agg.act_pcs_tot}
+              <br />
+              trainings done: {training.agg.act_pcs_tot}
+            </div>
+
+            <div>
+              <TM_PieChart
+                data={[
+                  {
+                    name: "Trainings done",
+                    value: training.agg.act_pcs_tot,
+                    color: "#00aa00",
+                  },
+                  {
+                    name: "Trainings left",
+                    value: training.agg.pla_pcs_tot - training.agg.act_pcs_tot,
+                    color: "#aa0000",
+                  },
+                ]}
+              />
+              total trainings: {training.agg.act_pcs_tot}
+              <br />
+              trainings done: {training.agg.act_pcs_tot}
+            </div>
+          </div>
+        </div>
       </main>
 
       <footer></footer>
@@ -145,8 +183,6 @@ export const getServerSideProps = async (ctx) => {
     let parsed = JSON.parse(sb_tr_det_data);
     trainingdata.lines = parsed;
   }
-
-  console.log(trainingdata);
 
   return {
     props: {
