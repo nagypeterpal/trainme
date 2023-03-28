@@ -1,33 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@nagypeterpal 
-nagypeterpal
-/
-trainme
-Private
-Fork your own copy of nagypeterpal/trainme
-Code
-Issues
-Pull requests
-Actions
-Projects
-Security
-Insights
-Settings
-trainme/pages/protected/dashboard.js /
-@nagypeterpal
-nagypeterpal e
-Latest commit 3b2c2e8 7 minutes ago
- History
- 1 contributor
-265 lines (248 sloc)  7.81 KB
-
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
