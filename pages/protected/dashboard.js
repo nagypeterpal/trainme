@@ -61,7 +61,6 @@ export default function Home({ user, training }) {
             await router.push("/protected/profile");
           }}
         >
-          {" "}
           Profile
         </button>
         <button
@@ -71,7 +70,6 @@ export default function Home({ user, training }) {
             router.push("/");
           }}
         >
-          {" "}
           Sign Out
         </button>
       </div>
