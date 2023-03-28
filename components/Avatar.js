@@ -48,7 +48,6 @@ export default function Avatar({ uid, url, size, onUpload, readOnly = false }) {
 
       onUpload(filePath);
     } catch (error) {
-      alert("Error uploading avatar!");
       console.log(error);
     } finally {
       setUploading(false);
