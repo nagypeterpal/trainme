@@ -6,10 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-        colors: {
-          regalblue: '#cccccc',
-        },
+      colors: {
+        trainmeblue: "#15aabf",
       },
+    },
   },
   plugins: [],
-}
+};

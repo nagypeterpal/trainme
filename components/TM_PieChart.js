@@ -1,8 +1,6 @@
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from "recharts";
 
 const TM_PieChart = ({ data }) => {
-  console.log(data);
-
   const COLORS = ["#0088FE", ""];
 
   const RADIAN = Math.PI / 180;
@@ -34,15 +32,15 @@ const TM_PieChart = ({ data }) => {
   };
 
   return (
-    <PieChart width={300} height={300} data={data}>
+    <PieChart width={420} height={210} data={data}>
       <Pie
         data={data}
         cx="50%"
-        cy="50%"
+        cy="100%"
         labelLine={false}
         label={renderCustomizedLabel}
-        innerRadius={40}
-        outerRadius={80}
+        innerRadius={170}
+        outerRadius={200}
         fill="#000000"
         dataKey="value"
         startAngle={180}
