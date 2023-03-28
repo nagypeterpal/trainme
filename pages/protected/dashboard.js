@@ -15,11 +15,7 @@ export default function Home({ user, training }) {
   const router = useRouter();
   const [plancount, setPlanCount] = useState(true);
 
-  useEffect(() => {
-    getPlanData();
-  }, [user]);
-
-  //getting plan data
+    //getting plan data
   async function getPlanData() {
     let { count, error } = await supabaseClient
       .from("training_plans")
@@ -31,6 +27,10 @@ export default function Home({ user, training }) {
       setPlanCount(count);
     }
   }
+  
+  useEffect(() => {
+    getPlanData();
+  }, [user]);
 
   return (
     <div>
