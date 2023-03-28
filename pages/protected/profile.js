@@ -21,7 +21,7 @@ export default function Account({ user, plans, activeplan }) {
     setAvatarUrl(user.avatarurl);
     setStravaId(user.stravaid);
     setActivePlan(activeplan);
-  }, []);
+  }, [activeplan, user]);
 
   const planItems = plans.map((plan) => (
     <div

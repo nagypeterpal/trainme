@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -15,24 +14,6 @@ export default function Home({ user, training }) {
 
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
-  const [plancount, setPlanCount] = useState(true);
-
-  //getting plan data
-  async function getPlanData() {
-    let { count, error } = await supabaseClient
-      .from("training_plans")
-      .select("*", { count: "exact", head: true });
-    if (error) {
-      console.log(error);
-    }
-    if (count) {
-      setPlanCount(count);
-    }
-  }
-
-  useEffect(() => {
-    getPlanData();
-  }, [user]);
 
   return (
     <div>
