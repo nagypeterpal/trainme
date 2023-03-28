@@ -170,7 +170,7 @@ export default function Home({ user, training }) {
               Detailed training data
             </span>
             {training.lines.map((line) => (
-              <div className="p-2 col-span-2">
+              <div className="p-2 col-span-2" key={line.p_plan_line_id}>
                 <hr />
                 <span className="text-sky-500 text-2xl">
                   {line.p_plan_line_id}. training
