@@ -216,7 +216,7 @@ export const getServerSideProps = async (ctx) => {
     error: sb_tr_agg_error,
     status: sb_tr_agg_status,
   } = await supabaseServer.rpc("get_training_data_agg", {
-    userid: session.user.id.toString(),
+    session.user.id
   });
   if (sb_tr_agg_data) {
     let parsed = JSON.parse(sb_tr_agg_data);
@@ -229,7 +229,7 @@ export const getServerSideProps = async (ctx) => {
     error: sb_tr_det_error,
     status: sb_tr_det_status,
   } = await supabaseServer.rpc("get_training_data_detail", {
-    userid: session.user.id.toString(),
+    session.user.id
   });
   if (sb_tr_det_data) {
     let parsed = JSON.parse(sb_tr_det_data);
