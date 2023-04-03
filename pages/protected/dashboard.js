@@ -10,8 +10,6 @@ const TM_PieChart = dynamic(import("../../components/TM_PieChart"), {
 });
 
 export default function Home({ user, training }) {
-  console.log(training);
-
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
 
