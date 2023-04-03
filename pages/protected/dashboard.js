@@ -229,7 +229,7 @@ export const getServerSideProps = async (ctx) => {
     error: sb_tr_det_error,
     status: sb_tr_det_status,
   } = await supabaseServer.rpc("get_training_data_detail", {
-    userid: session.user.id,
+    userid: session.user.id.toString(),
   });
   if (sb_tr_det_data) {
     let parsed = JSON.parse(sb_tr_det_data);
