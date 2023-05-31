@@ -54,7 +54,7 @@ export default function Home({ user, training }) {
         </div>
 
         <button
-          className="button block text-white rounded-xl border-white  border-2 p-2 m-2 text-center inline text-sm"
+          className="button  text-white rounded-xl border-white  border-2 p-2 m-2 text-center inline text-sm"
           onClick={async () => {
             await router.push("/protected/profile");
           }}
@@ -63,7 +63,7 @@ export default function Home({ user, training }) {
           Profile
         </button>
         <button
-          className="button block text-white rounded-xl border-white bg-red-500 border-2 p-2 m-2 inline text-sm"
+          className="button  text-white rounded-xl border-white bg-red-500 border-2 p-2 m-2 inline text-sm"
           onClick={async () => {
             await supabaseClient.auth.signOut();
             router.push("/");
