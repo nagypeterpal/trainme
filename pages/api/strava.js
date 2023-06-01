@@ -8,7 +8,9 @@ const saveData = async (whatToSave) => {
   );
   try {
     const { error } = await supabase.from("debug").insert({ txt: whatToSave });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export default function handler(req, res) {
