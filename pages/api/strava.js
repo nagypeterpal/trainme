@@ -6,7 +6,9 @@ const saveData = async (whatToSave) => {
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   );
-  const { error } = await supabase.from("debug").insert({ txt: whatToSave });
+  try {
+    const { error } = await supabase.from("debug").insert({ txt: whatToSave });
+  } catch (err) {}
 };
 
 export default function handler(req, res) {
