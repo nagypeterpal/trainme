@@ -14,5 +14,5 @@ const saveData = async (whatToSave) => {
 };
 
 export default function handler(req, res) {
-  saveData(req);
+  saveData(req.stringify());
 }
