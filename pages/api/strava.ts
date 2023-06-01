@@ -7,8 +7,12 @@ export default function handler(req, res) {
         .status(200)
         .json({ message: `You submitted the following data: ${body}` });
 
-    // handle other HTTP methods
-    default:
-      res.status(200).json({ message: `Welcome to API Routes!  ${body}` });
-  }
-}
+export const config = {
+  runtime: "edge",
+};
+
+export default (request: NextRequest) => {
+  return NextResponse.json({
+    name: `Hello, from ${request.url} I'm now an Edge Function!`,
+  });
+};
