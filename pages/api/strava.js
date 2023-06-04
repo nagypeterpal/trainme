@@ -24,5 +24,5 @@ const saveData = async (whatToSave) => {
 export default function handler(req, res) {
   saveData(JSON.stringify(JSON.stringify(req.query)));
   //console.log(req);
-  res.status(200).json(JSON.stringify(req.query));
+  //res.status(200).json(JSON.stringify(req.query));
 }
