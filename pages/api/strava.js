@@ -32,8 +32,6 @@ export default function handler(req, res) {
       // Verifies that the mode and token sent are valid
       if (mode === "subscribe" && token === VERIFY_TOKEN) {
         // Responds with the challenge token from the request
-        console.log("WEBHOOK_VERIFIED");
-        res.json({ "hub.challenge": challenge });
         res.status(200).send("ok");
       } else {
         // Responds with '403 Forbidden' if verify tokens do not match
