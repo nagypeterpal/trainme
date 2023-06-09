@@ -33,14 +33,8 @@ export default function handler(req, res) {
       if (mode === "subscribe" && token === VERIFY_TOKEN) {
         // Responds with the challenge token from the request
         res.status(200).send("ok");
-      } else {
-        // Responds with '403 Forbidden' if verify tokens do not match
-        res.status(403);
       }
     }
-
-    res.status(405).send({ message: "Only POST requests allowed" });
-    return;
   }
 
   if (req.method == "POST") {
@@ -51,4 +45,6 @@ export default function handler(req, res) {
 
     res.status(200).send("ok");
   }
+
+  return;
 }
