@@ -1,4 +1,3 @@
-//import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { createClient } from "@supabase/supabase-js";
 
 export const config = {
@@ -22,7 +21,35 @@ const saveData = async (whatToSave) => {
 };
 
 export default function handler(req, res) {
-  saveData(JSON.stringify(JSON.stringify(req.query)));
-  //console.log(req);
-  //res.status(200).json(JSON.stringify(req.query));
+  if (req.method == "GET") {
+    const VERIFY_TOKEN = "STRAVA";
+    // Parses the query params
+    let mode = req.query["hub.mode"];
+    let token = req.query["hub.verify_token"];
+    let challenge = req.query["hub.challenge"];
+    // Checks if a token and mode is in the query string of the request
+    if (mode && token) {
+      // Verifies that the mode and token sent are valid
+      if (mode === "subscribe" && token === VERIFY_TOKEN) {
+        // Responds with the challenge token from the request
+        console.log("WEBHOOK_VERIFIED");
+        res.json({ "hub.challenge": challenge });
+      } else {
+        // Responds with '403 Forbidden' if verify tokens do not match
+        res.status(403);
+      }
+    }
+
+    res.status(405).send({ message: "Only POST requests allowed" });
+    return;
+  }
+
+  if (req.method == "POST") {
+    //const body = JSON.parse(req.body);
+    console.log(req.query);
+    console.log(req.body);
+    saveData(req.query + " - " + req.body);
+
+    res.status(200).send("ok");
+  }
 }
