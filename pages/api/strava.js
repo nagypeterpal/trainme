@@ -6,7 +6,7 @@ export const config = {
   },
 };
 
-const saveData = async (whatToSave) => {
+const saveData = async (txt, object_id, owner_id) => {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -14,7 +14,7 @@ const saveData = async (whatToSave) => {
   try {
     const { data, error } = await supabase
       .from("debug")
-      .insert([{ txt: whatToSave }]);
+      .insert([{ txt: txt, object_id: object_id, owner_id: owner_id }]);
   } catch (err) {
     console.log(err);
   }
@@ -23,28 +23,28 @@ const saveData = async (whatToSave) => {
 export default function handler(req, res) {
   if (req.method == "GET") {
     const VERIFY_TOKEN = "STRAVA";
-    // Parses the query params
     let mode = req.query["hub.mode"];
     let token = req.query["hub.verify_token"];
     let challenge = req.query["hub.challenge"];
-    // Checks if a token and mode is in the query string of the request
+    console.log(mode + " - " + token);
     if (mode && token) {
-      // Verifies that the mode and token sent are valid
       if (mode === "subscribe" && token === VERIFY_TOKEN) {
-        // Responds with the challenge token from the request
-        res.status(200).send("ok");
+        res.status(200).json({ "hub.challenge": challenge });
       }
     }
+    res.status(200);
   }
 
   if (req.method == "POST") {
-    //const body = JSON.parse(req.body);
-    console.log(req.query);
-    console.log(req.body);
-    saveData(req.query + " - " + req.body);
-
+    let toSave =
+      '{"object_id":' +
+      req.body.object_id +
+      ',"owner_id":' +
+      req.body.owner_id +
+      "}";
+    console.log(toSave, req.body.object_id, req.body.owner_id);
+    saveData(toSave, req.body.object_id, req.body.owner_id);
     res.status(200).send("ok");
   }
-
   return;
 }
