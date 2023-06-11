@@ -6,15 +6,21 @@ export const config = {
   },
 };
 
-const saveData = async (txt, object_id, owner_id) => {
+const saveData = async (txt, object_id, owner_id, action_type, object_type) => {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   );
   try {
-    const { data, error } = await supabase
-      .from("debug")
-      .insert([{ txt: txt, object_id: object_id, owner_id: owner_id }]);
+    const { data, error } = await supabase.from("strava_webhook_items").insert([
+      {
+        txt: txt,
+        object_id: object_id,
+        owner_id: owner_id,
+        action_type: action_type,
+        object_type: object_type,
+      },
+    ]);
   } catch (err) {
     console.log(err);
   }
@@ -36,14 +42,13 @@ export default function handler(req, res) {
   }
 
   if (req.method == "POST") {
-    let toSave =
-      '{"object_id":' +
-      req.body.object_id +
-      ',"owner_id":' +
-      req.body.owner_id +
-      "}";
-    console.log(toSave, req.body.object_id, req.body.owner_id);
-    saveData(toSave, req.body.object_id, req.body.owner_id);
+    saveData(
+      req.body,
+      req.body.object_id,
+      req.body.owner_id,
+      req.body.aspect_type,
+      req.body.object_type
+    );
     res.status(200).send("ok");
   }
   return;

@@ -94,12 +94,7 @@ export default function Account({ user, plans, activeplan }) {
         </div>
 
         <div class="grid grid-cols-3 gap-4">
-          <label
-            for="email"
-            className="block mb-2 p-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Email
-          </label>
+          <label for="email">Email</label>
           <input
             type="text"
             id="email"
@@ -126,7 +121,17 @@ export default function Account({ user, plans, activeplan }) {
             className="col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
 
-          <label htmlFor="stravaid">Strava id</label>
+          <span>
+            <label htmlFor="stravaid">Strava id</label>
+            <br />
+            <Link
+              href={`https://www.strava.com/oauth/authorize?client_id=96151&response_type=code&redirect_uri=https://trainme.loophole.site/api/strava_auth_one/${user.id}&approval_prompt=force&scope=read,activity:read`}
+            >
+              <span className="text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-2 py-0.5 text-center">
+                Authorize
+              </span>
+            </Link>
+          </span>
           <input
             id="strava_id"
             type="strava_id"
