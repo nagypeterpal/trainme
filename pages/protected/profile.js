@@ -124,13 +124,15 @@ export default function Account({ user, plans, activeplan }) {
           <span>
             <label htmlFor="stravaid">Strava id</label>
             <br />
-            <Link
+            <a
               href={`https://www.strava.com/oauth/authorize?client_id=96151&response_type=code&redirect_uri=https://trainme.loophole.site/api/strava_auth_one/${user.id}&approval_prompt=force&scope=read,activity:read`}
+              target="_blank"
             >
+              {" "}
               <span className="text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-2 py-0.5 text-center">
                 Authorize
               </span>
-            </Link>
+            </a>
           </span>
           <input
             id="strava_id"
@@ -138,6 +140,7 @@ export default function Account({ user, plans, activeplan }) {
             value={strava_id || ""}
             onChange={(e) => setStravaId(e.target.value)}
             className="col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            disabled
           />
 
           <button

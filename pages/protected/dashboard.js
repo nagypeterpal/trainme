@@ -1,9 +1,6 @@
 import Head from "next/head";
-import dynamic from "next/dynamic";
+import Dynamic from "next/dynamic";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
 import Image from "next/image";
 import {
@@ -11,14 +8,11 @@ import {
   XCircleIcon,
   GlobeAltIcon,
 } from "@heroicons/react/24/solid";
-const TM_PieChart = dynamic(import("../../components/TM_PieChart"), {
+const TM_PieChart = Dynamic(import("../../components/TM_PieChart"), {
   ssr: false,
 });
 
 export default function Home({ user, training }) {
-  const supabaseClient = useSupabaseClient();
-  const router = useRouter();
-
   return (
     <div>
       <Head>

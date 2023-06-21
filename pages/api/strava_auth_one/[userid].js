@@ -7,11 +7,19 @@ export const config = {
   },
 };
 
-const updateData = async (refresh_token, access_token, id) => {
+const updateData = async (
+  refresh_token,
+  access_token,
+  expires_at,
+  strava_id,
+  scopes,
+  id
+) => {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   );
+
   try {
     const { data, error } = await supabase
       .from("profiles")
@@ -19,6 +27,9 @@ const updateData = async (refresh_token, access_token, id) => {
         {
           refresh_token: refresh_token,
           access_token: access_token,
+          expires_at: expires_at,
+          strava_id: strava_id,
+          scopes: scopes,
         },
       ])
       .eq("id", id);
@@ -44,10 +55,17 @@ export default async function handler(req, res) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        updateData(data.refresh_token, data.access_token, req.query.userid);
+        updateData(
+          data.refresh_token,
+          data.access_token,
+          data.expires_at,
+          data.athlete.id,
+          req.query.scope,
+          req.query.userid
+        );
       })
       .catch((err) => console.log(err));
   }
 
-  //redirect("/protected/dashboard");
+  return res.redirect(307, "/protected/dashboard");
 }
