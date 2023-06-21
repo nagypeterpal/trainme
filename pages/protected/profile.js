@@ -127,6 +127,7 @@ export default function Account({ user, plans, activeplan }) {
             <a
               href={`https://www.strava.com/oauth/authorize?client_id=96151&response_type=code&redirect_uri=https://trainme.loophole.site/api/strava_auth_one/${user.id}&approval_prompt=force&scope=read,activity:read`}
               target="_blank"
+              rel="noreferrer"
             >
               {" "}
               <span className="text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-2 py-0.5 text-center">

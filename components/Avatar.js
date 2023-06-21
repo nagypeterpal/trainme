@@ -7,10 +7,6 @@ export default function Avatar({ uid, url, size, onUpload, readOnly = false }) {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    if (url) downloadImage(url);
-  }, [url]);
-
   async function downloadImage(path) {
     try {
       const { data, error } = await supabase.storage
@@ -25,6 +21,10 @@ export default function Avatar({ uid, url, size, onUpload, readOnly = false }) {
       console.log("Error downloading image: ", error);
     }
   }
+
+  useEffect(() => {
+    if (url) downloadImage(url);
+  }, [url]);
 
   const uploadAvatar = async (event) => {
     try {
